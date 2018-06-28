@@ -16,14 +16,15 @@ app.get('/', (req, res) => {
   const opts = JSON.parse(req.query.opts);
   const headers = getHeaders(opts.headers);
   res.set(headers);
-  // res.type(headers['content-type']);
-  // res.status(headers['status']);
+  res.type(headers['content-type']);
+  res.status(headers['status']);
   switch (opts.body) {
     case 'empty':
-      res.end();  
+      res.set('content-length', 0);
+      res.send();  
       return;
     case 'png':
-      res.sendFile(path.resolve(__dirname, '..', 'static', '1x1.png'));
+      res.sendFile(path.resolve(__dirname, '..', 'static', '20x20.png'));
       return;
     default:
       res.sendFile(path.resolve(__dirname, '..', 'static', 'resp.html'));
