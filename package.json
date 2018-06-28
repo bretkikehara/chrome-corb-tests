@@ -1,0 +1,15 @@
+{
+  "name": "corb",
+  "version": "1.0.0",
+  "main": "index.js",
+  "license": "MIT",
+  "dependencies": {
+    "concurrently": "^3.6.0",
+    "express": "^4.16.3"
+  },
+  "scripts": {
+    "serve": "concurrently --kill-others \"yarn run http\" \"yarn run crossorigin\"",
+    "http": "node src/http.js",
+    "crossorigin": "node src/crossorigin.js"
+  }
+}

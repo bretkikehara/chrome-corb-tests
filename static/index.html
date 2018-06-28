@@ -1,0 +1,81 @@
+<!doctype html>
+<html lang="en">
+<head>
+<!-- Required meta tags -->
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+<!-- Bootstrap CSS -->
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+
+<title>CORB!</title>
+</head>
+<body>
+<div class="container">
+<form id="form">
+  <div class="form-group">
+    <label for="crossoriginhost">Cross Origin Host</label>
+    <input type="text" class="form-control" id="crossoriginhost" value="//localhost:8081/">
+  </div>
+  <div class="form-group">
+    <label for="tagname">Example select</label>
+    <select class="form-control" id="tagname">
+      <option value="img">Image</option>
+      <option value="iframe">IFrame</option>
+    </select>
+  </div>
+  <div class="form-group">
+    <label for="Content-Type">Content-Type</label>
+    <select class="form-control" id="Content-Type">
+      <option value="image/png">image/png</option>
+      <option value="text/html">text/html</option>
+    </select>
+  </div>
+  <div class="form-group">
+    <label for="Status">Status</label>
+    <select class="form-control" id="Status">
+      <option value="200">200 OK</option>
+      <option value="204">204 No Content</option>
+    </select>
+  </div>
+  <div class="form-group">
+    <label for="body">Response Body</label>
+    <select class="form-control" id="body">
+      <option value="html">HTML</option>
+      <option value="png">PNG</option>
+      <option value="empty">Empty</option>
+    </select>
+  </div>
+  <button type="submit" class="btn btn-primary">Submit</button>
+</form>
+</div>
+<div id="out"></div>
+<!-- Optional JavaScript -->
+<!-- jQuery first, then Popper.js, then Bootstrap JS -->
+<script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+<script>
+  var form = document.querySelector('#form');
+  form.addEventListener('submit', function(ev) {
+    ev.preventDefault();
+    var out = document.querySelector('#out');
+    out.innerHTML = '';
+
+    var opts = {
+      headers: {},
+      body: form.body.value,
+    };
+    ['Content-Type', 'Status'].forEach((key) => {
+      opts.headers[key] = form[key].value;
+    });
+
+    console.log('resource', opts);
+
+    var el = document.createElement(form.tagname.value);
+    el.src = form.crossoriginhost.value + '?opts=' + encodeURIComponent(JSON.stringify(opts));
+    out.appendChild(el);
+  });
+</script>
+</body>
+</html>
